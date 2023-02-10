@@ -6,4 +6,11 @@ type Todo @model {
   id: ID!
   title: String!
   description: String
+
 }
+
+
+
+
+//GraphQL endpoint: https://weamjzfg2jeydlfd6oya6zriqy.appsync-api.ap-south-1.amazonaws.com/graphql
+//GraphQL API KEY: da2-eyupm2uq3rf6peh3wu4umc42h4
