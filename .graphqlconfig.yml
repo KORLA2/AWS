@@ -1,5 +1,5 @@
 projects:
-  practiceaws:
+  practice:
     schemaPath: src/graphql/schema.json
     includes:
       - src/graphql/**/*.js

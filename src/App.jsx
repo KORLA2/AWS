@@ -1,50 +1,30 @@
 import  react , { useState,useEffect } from 'react'
-import  {  Authenticator}  from "@aws-amplify/ui-react";
-import {Amplify,API, graphqlOperation} from 'aws-amplify'
+
 import awsconfig from  './aws-exports'
-import '@aws-amplify/ui-react/styles.css'
-import { listTodos } from './graphql/queries'; 
+import {TextField,Button} from '@material-ui/core'
 
-Amplify.configure(awsconfig)
 
-// dynamo db + Amplify set up an then lmbda 
 function App() {
-let [Todos,setTodos]=useState([])
+let [base, setbase] = useState("");
+let [exponent, setexponent] = useState("");
+let myHeaders=new Headers();
+myHeaders.append('Content-Type','application/json')
+function post(){
 
-useEffect( ()=>{
-      let func =async ()=>{
-  try {
-    let list = await API.graphql(graphqlOperation(listTodos));
+fetch(" https://iab304uy8a.execute-api.ap-south-1.amazonaws.com/Dev",{
 
-   setTodos(list.data.listTodos.items);
-   console.log(list)
-
-  } catch (err) {
-      console.log(err)
-  }
-      }
-      
-      func()
+method:'POST',
+headers:myHeaders,
+body:JSON.stringify({base:base,exponent:exponent}),
+redirect:'follow'
+}).then(res=>res.json()).then(res=>console.log(res.body));
 }
-,[])
-
-
 
 return (
-  <div style={{height:"100%",width:"100%",display:"flex",justifyContent:'center',alignItems:'center'}}>
-    <Authenticator>
-      {({ user, signOut }) => {
-        {/* console.log(user) */}
-        return (
-          <div>
-{
-
-Todos.map(e=>e.title)         
-}
-          </div>
-        );
-      }}
-    </Authenticator>
+<div>
+<TextField variant="outlined" onChange={(e)=>{setbase(e.target.value)}} />
+<TextField variant="outlined" onChange={(e)=>{setexponent(e.target.value)}}/>
+<Button color='secondary' variant='contained' onClick={post}>Calc</Button>
   </div>
 );
 }
